@@ -27,11 +27,53 @@ public class OObject implements OMesh {
 	private double dvz = 0;
 	private double collisionRadiusSquared;
 	private double mass;
-	private String name;
 	private boolean merged = false;
 	private boolean explode = false;
 	private int id;
 	private static volatile int ID = 0;
+
+	public static FloatBuffer vertexBuffer;
+	public static FloatBuffer normalBuffer;
+	private FloatBuffer colorBuffer;
+	public static ByteBuffer indexBuffer;
+
+	private float sizeMulti;
+	private static final float[] vertices = { 1, 1, 1, -1, 1, 1, -1, -1, 1, 1, -1, 1, // v0,v1,v2,v3
+			// (front)
+			1, 1, 1, 1, -1, 1, 1, -1, -1, 1, 1, -1, // v0,v3,v4,v5 (right)
+			1, 1, 1, 1, 1, -1, -1, 1, -1, -1, 1, 1, // v0,v5,v6,v1 (top)
+			-1, 1, 1, -1, 1, -1, -1, -1, -1, -1, -1, 1, // v1,v6,v7,v2 (left)
+			-1, -1, -1, 1, -1, -1, 1, -1, 1, -1, -1, 1, // v7,v4,v3,v2 (bottom)
+			1, -1, -1, -1, -1, -1, -1, 1, -1, 1, 1, -1 }; // v4,v7,v6,v5 (back)
+
+	private static final float[] normals = { 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, // v0,v1,v2,v3
+																					// (front)
+			1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, // v0,v3,v4,v5 (right)
+			0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, // v0,v5,v6,v1 (top)
+			-1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, // v1,v6,v7,v2 (left)
+			0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, // v7,v4,v3,v2 (bottom)
+			0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1 }; // v4,v7,v6,v5 (back)
+
+	private float r = 1.0f;
+	private float g = 0.0f;
+	private float b = 0.0f;
+	private float[] colors = { r, g, b, r, g, b, r, g, b, r,
+			g,
+			b, // v0,v1,v2,v3
+				// (front)
+			r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b,
+			r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b };
+
+	private static final byte[] indices = { 0, 1, 2, 2, 3, 0, // front
+			4, 5, 6, 6, 7, 4, // right
+			8, 9, 10, 10, 11, 8, // top
+			12, 13, 14, 14, 15, 12, // left
+			16, 17, 18, 18, 19, 16, // bottom
+			20, 21, 22, 22, 23, 20 };
+
+	private static float[] global_ambient = { 0.0f, 0.0f, 1.0f, 1.0f };
+	private static ByteBuffer bbGlobalAmbient;
+	private static FloatBuffer ambientBuffer;
 
 	private static synchronized int getID() {
 		return OObject.ID++;
@@ -175,11 +217,7 @@ public class OObject implements OMesh {
 		String spaces = OTools.getSpaces(level);
 		StringBuilder builder = new StringBuilder();
 		builder.append(spaces);
-		if (name == null) {
-			builder.append("[OObject]\n");
-		} else {
-			builder.append("[OObject]: " + name + "\n");
-		}
+		builder.append("[OObject]\n");
 		builder.append(spaces);
 		builder.append("x." + x);
 		builder.append(" fx." + vx + "\n");
@@ -296,53 +334,6 @@ public class OObject implements OMesh {
 		}
 		return true;
 	}
-
-	public String getName() {
-		return (name == null) ? "null" : name;
-	}
-
-	public static FloatBuffer vertexBuffer;
-	public static FloatBuffer normalBuffer;
-	private FloatBuffer colorBuffer;
-	public static ByteBuffer indexBuffer;
-
-	private float sizeMulti;
-	private static final float[] vertices = { 1, 1, 1, -1, 1, 1, -1, -1, 1, 1, -1, 1, // v0,v1,v2,v3
-			// (front)
-			1, 1, 1, 1, -1, 1, 1, -1, -1, 1, 1, -1, // v0,v3,v4,v5 (right)
-			1, 1, 1, 1, 1, -1, -1, 1, -1, -1, 1, 1, // v0,v5,v6,v1 (top)
-			-1, 1, 1, -1, 1, -1, -1, -1, -1, -1, -1, 1, // v1,v6,v7,v2 (left)
-			-1, -1, -1, 1, -1, -1, 1, -1, 1, -1, -1, 1, // v7,v4,v3,v2 (bottom)
-			1, -1, -1, -1, -1, -1, -1, 1, -1, 1, 1, -1 }; // v4,v7,v6,v5 (back)
-
-	private static final float[] normals = { 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, // v0,v1,v2,v3
-																					// (front)
-			1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, // v0,v3,v4,v5 (right)
-			0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, // v0,v5,v6,v1 (top)
-			-1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, // v1,v6,v7,v2 (left)
-			0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, // v7,v4,v3,v2 (bottom)
-			0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1 }; // v4,v7,v6,v5 (back)
-
-	private float r = 1.0f;
-	private float g = 0.0f;
-	private float b = 0.0f;
-	private float[] colors = { r, g, b, r, g, b, r, g, b, r,
-			g,
-			b, // v0,v1,v2,v3
-				// (front)
-			r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b,
-			r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b, r, g, b };
-
-	private static final byte[] indices = { 0, 1, 2, 2, 3, 0, // front
-			4, 5, 6, 6, 7, 4, // right
-			8, 9, 10, 10, 11, 8, // top
-			12, 13, 14, 14, 15, 12, // left
-			16, 17, 18, 18, 19, 16, // bottom
-			20, 21, 22, 22, 23, 20 };
-
-	private static float[] global_ambient = { 0.0f, 0.0f, 1.0f, 1.0f };
-	private static ByteBuffer bbGlobalAmbient;
-	private static FloatBuffer ambientBuffer;
 
 	public static void init() {
 		ByteBuffer bbVertices;

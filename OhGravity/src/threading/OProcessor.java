@@ -24,9 +24,6 @@ public class OProcessor {
 	private List<ApplyCallable> applyCallables;
 	private OSettings settings;
 
-	public static final int CALCMODE_APPLY = 3;
-	public static final int CALCMODE_CALC_STUPID = 5;
-
 	private void initCallables() {
 		calculationCallables = new ArrayList<CalculationCallable>();
 		applyCallables = new ArrayList<ApplyCallable>();
@@ -72,8 +69,7 @@ public class OProcessor {
 				endIndex += width;
 			}
 			futures = executor.invokeAll(callablesToExecute);
-			for (int i = 0; i < noOfThreads; i++) {
-				Future<List<OObject>> future = futures.get(i);
+			for (Future<List<OObject>> future : futures) {
 				List<OObject> futureResult = future.get();
 				if (futureResult != null) {
 					result.addAll(futureResult);

@@ -10,10 +10,9 @@ public class OMain {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
-			@SuppressWarnings("unused")
 			public void run() {
 				try {
-					OGravityWindow window = new OGravityWindow();
+					new OGravityWindow();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
