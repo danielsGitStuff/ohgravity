@@ -21,7 +21,7 @@ public class OGLView implements GLEventListener {
 	private float z = -10;
 	private float x = 0;
 	private float y = -2;
-	private List<OObject> objects2draw = new LinkedList<OObject>();
+	private List<OObject> objects2draw = new LinkedList<>();
 	private OProcessorManager processorManager;
 	private float rAngleXZ;
 	private OSettings settings;
@@ -175,7 +175,7 @@ public class OGLView implements GLEventListener {
 
 	}
 
-	public void displayChanged(GLAutoDrawable gLDrawable, boolean modeChanged, boolean deviceChanged) {
+	public void displayChanged() {
 		System.out.println("displayChanged called");
 	}
 

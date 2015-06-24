@@ -22,7 +22,7 @@ public class CalculationCallable implements ICallable {
 		this.oObjects = oObjects;
 		this.startIndex = startIndex;
 		this.endIndex = endIndex;
-	};
+	}
 
 	public CallableStats getStats() {
 		return stats;
@@ -33,8 +33,7 @@ public class CalculationCallable implements ICallable {
 		int size = oObjects.size();
 		for (int i = startIndex; i < endIndex; i++) {
 			OObject big = oObjects.get(i);
-			for (int j = 0; j < size; j++) {
-				OObject small = oObjects.get(j);
+			for (OObject small : oObjects) {
 				if (big.getId() != small.getId() && !small.isMerged() && !big.isMerged()) {
 					OMath.calculateForces(big, small, stats, settings);
 				}

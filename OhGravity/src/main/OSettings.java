@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import measure.OTimer;
 import data.OObject;
@@ -32,7 +30,7 @@ public class OSettings {
 	private double outOfBoundsMass = 0;
 	private double mass = 0;
 	private int objectCount = 0;
-	private List<Long> smoothFrameList = new ArrayList<Long>();
+	private List<Long> smoothFrameList = new ArrayList<>();
 	private int frameRate;
 	private double realTime = 0;
 	private JSlider slider;
@@ -136,7 +134,7 @@ public class OSettings {
 		smoothFrameList.add(fpsTimer.fps());
 		if (smoothFrameList.size() > 25)
 			smoothFrameList.remove(smoothFrameList.get(0));
-		float smoothed = 0;
+		float smoothed;
 		long fps = 0;
 		int count = 1;
 		for (long f : smoothFrameList) {
@@ -199,15 +197,11 @@ public class OSettings {
 
 	public void bindFrameRateSlider(JSlider slider) {
 		this.slider = slider;
-		this.slider.addChangeListener(new ChangeListener() {
-
-			@Override
-			public void stateChanged(ChangeEvent arg0) {
-				timeScale = OSettings.this.slider.getValue() / 4.0f;
-				targetFrameRate = (int) (timeScale * 24);
-				if (oglCanvas != null)
-					oglCanvas.setFrameRate(targetFrameRate);
-			}
+		this.slider.addChangeListener(event -> {
+			timeScale = OSettings.this.slider.getValue() / 4.0f;
+			targetFrameRate = (int) (timeScale * 24);
+			if (oglCanvas != null)
+				oglCanvas.setFrameRate(targetFrameRate);
 		});
 		this.slider.setPaintLabels(true);
 		this.slider.setToolTipText("from 0.25 to 10");

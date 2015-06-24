@@ -7,6 +7,6 @@ import data.OObject;
 
 public interface ICallable extends Callable<List<OObject>> {
 
-	public void prepare(List<OObject> oObjects, int startIndex, int endIndex);
+	void prepare(List<OObject> oObjects, int startIndex, int endIndex);
 	
 }

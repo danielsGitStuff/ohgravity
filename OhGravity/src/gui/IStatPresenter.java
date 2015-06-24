@@ -1,14 +1,23 @@
 package gui;
 
 public interface IStatPresenter {
-	public void showFps(double fps);
-	public void showObjects(int objectCount);
-	public void showMergedObjects(int mergeCount);
-	public void showRunningTime(double runningTime);
-	public void showTimeScale(double timeScale);
-	public void showTargetFps(int fps);
-	public void showExplosions(int explosions);
-	public void showObjectsOob(int objectsOob);
-	public void showMassOob(double massOob);
-	public void stop();
+	void showFps(double fps);
+
+	void showObjects(int objectCount);
+
+	void showMergedObjects(int mergeCount);
+
+	void showRunningTime(double runningTime);
+
+	void showTimeScale(double timeScale);
+
+	void showTargetFps(int fps);
+
+	void showExplosions(int explosions);
+
+	void showObjectsOob(int objectsOob);
+
+	void showMassOob(double massOob);
+
+	void stop();
 }

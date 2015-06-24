@@ -36,9 +36,8 @@ public class CallableStats {
 
 	@Override
 	public String toString() {
-		String result = "stats." + name + "\n" + "runtime: " + this.timer.getDurationInNS() + "\n" + "runs: "
+		return "stats." + name + "\n" + "runtime: " + this.timer.getDurationInNS() + "\n" + "runs: "
 				+ this.timer.getStartCount() + "\n" + "avg runtime: " + this.timer.getAverageDuration();
-		return result;
 	}
 
 	public void reset() {

@@ -6,17 +6,10 @@ import debug.CallableStats;
 
 public class OMath {
 
-	public static void resetCounter() {
-
-	}
-
 	public static boolean isInBounds(OObject object, OSettings settings) {
 		double bound = settings.getUniverseSize();
-		if (object.getX() < bound && object.getY() < bound && object.getZ() < bound && object.getX() > -bound
-				&& object.getY() > -bound && object.getZ() > -bound) {
-			return true;
-		}
-		return false;
+		return object.getX() < bound && object.getY() < bound && object.getZ() < bound && object.getX() > -bound
+				&& object.getY() > -bound && object.getZ() > -bound;
 	}
 
 	/**
@@ -76,8 +69,7 @@ public class OMath {
 		double x = vector[0];
 		double y = vector[1];
 		double z = vector[2];
-		double length = Math.sqrt(x * x + y * y + z * z);
-		return length;
+		return Math.sqrt(x * x + y * y + z * z);
 	}
 
 	public static void normalizeVector(double[] vector, double length) {

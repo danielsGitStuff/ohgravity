@@ -1,7 +1,5 @@
 package gl;
 
-import gui.OGravityWindow;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -106,9 +104,9 @@ public class OGLCanvas extends GLCanvas {
 			float cosAlpha = (float) Math.cos(alpha);
 			float sinBeta = (float) Math.sin(beta);
 
-			float dx = 0;
+			float dx;
 			float dy = 0;
-			float dz = 0;
+			float dz;
 
 			float multi = 1.5f;
 
@@ -185,8 +183,8 @@ public class OGLCanvas extends GLCanvas {
 		}
 	}
 
-	public OGLCanvas(GLCapabilities capabilities, OProcessorManager processorManager, JPanel embeddedIn, OGravityWindow window,
-			int frameRate) {
+	public OGLCanvas(GLCapabilities capabilities, OProcessorManager processorManager, JPanel embeddedIn,
+					 int frameRate) {
 		super(capabilities);
 		this.embeddedIn = embeddedIn;
 		oglView = new OGLView(processorManager);

@@ -40,7 +40,7 @@ public class ApplyCallable implements ICallable {
 	public List<OObject> call() throws Exception {
 		stats.reset();
 		stats.start();
-		List<OObject> result = new ArrayList<OObject>();
+		List<OObject> result = new ArrayList<>();
 		for (int i = startIndex; i < endIndex; i++) {
 			OObject oObject = this.oObjects.get(i);
 			oObject.apply();

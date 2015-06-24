@@ -25,8 +25,8 @@ public class OProcessor {
 	private OSettings settings;
 
 	private void initCallables() {
-		calculationCallables = new ArrayList<CalculationCallable>();
-		applyCallables = new ArrayList<ApplyCallable>();
+		calculationCallables = new ArrayList<>();
+		applyCallables = new ArrayList<>();
 		for (int i = 0; i < settings.getNoOfThreads(); i++) {
 			CalculationCallable calcCallable = new CalculationCallable(settings);
 			calculationCallables.add(calcCallable);
@@ -41,11 +41,11 @@ public class OProcessor {
 		initCallables();
 	}
 
-	List<Future<List<OObject>>> futures = new ArrayList<Future<List<OObject>>>();
+	List<Future<List<OObject>>> futures = new ArrayList<>();
 
 	private List<OObject> threadCalculate(List<OObject> objects, int noOfThreads, List<? extends ICallable> callables)
 			throws InterruptedException {
-		List<OObject> result = new ArrayList<OObject>();
+		List<OObject> result = new ArrayList<>();
 		try {
 			int size = objects.size();
 			if (size < noOfThreads)
@@ -83,15 +83,14 @@ public class OProcessor {
 
 	private void calcMultiThread() throws InterruptedException {
 		this.threadCalculate(allObjects, settings.getNoOfThreads(), calculationCallables);
-		List<OObject> result = this.threadCalculate(allObjects, settings.getNoOfThreads(), applyCallables);
-		this.allObjects = result;
+		this.allObjects = this.threadCalculate(allObjects, settings.getNoOfThreads(), applyCallables);
 	}
 
 	public List<OObject> calculate(List<OObject> sortList) throws InterruptedException {
 		this.allObjects = sortList;
 		calcMultiThread();
 		return allObjects;
-	};
+	}
 
 	public int getObjectCount() {
 		return allObjects.size();

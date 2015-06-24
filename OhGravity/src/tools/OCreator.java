@@ -14,7 +14,7 @@ public class OCreator {
 		Random random = new Random();
 		settings.explosion();
 		double[] explodePosition = explodingObject.getCoordinates();
-		List<OObject> result = new ArrayList<OObject>();
+		List<OObject> result = new ArrayList<>();
 		int howManyObjects = (int) Math.floor(explodingObject.getMass());
 		for (int i = 0; i < howManyObjects; i++) {
 			double[] vMomentum = new double[3];
@@ -42,7 +42,7 @@ public class OCreator {
 		double universeCreationRoomSize = settings.getUniverseCreationRoomSize();
 		double galaxyCreationRoomSize = settings.getGalaxyCreationRoomSize();
 		int objectsPerGalaxy = settings.getNoOfObjectsPerGalaxy();
-		List<OObject> allObjects = new ArrayList<OObject>();
+		List<OObject> allObjects = new ArrayList<>();
 		for (int ii = 0; ii < noOfGalaxies; ii++) {
 			double offsetX = (universeCreationRoomSize) * random.nextDouble() * (random.nextBoolean() ? -1 : 1);
 			double offsetY = (universeCreationRoomSize) * random.nextDouble() * (random.nextBoolean() ? -1 : 1);
