@@ -11,3 +11,4 @@ So hot and heavy particles are pink.
 
 Feel free to use the code for whatever you want, except starting a nuclear war.
 
+[Download](https://github.com/danielsGitStuff/ohgravity/raw/master/OhGravity.jar)
